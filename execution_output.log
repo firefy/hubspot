@@ -1,0 +1,11 @@
+connected to database
+start pulling data from HubSpot
+start processing account
+fetch contact batch
+process contacts
+fetch company batch
+process companies
+fetch meeting batch
+process meetings
+drain queue
+finish processing account

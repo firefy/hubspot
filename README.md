@@ -22,3 +22,10 @@ The implementation of the server and the ```server.js``` is not important for th
 
 Every data source in this project was created for test purposes. If any request takes more than 5 seconds to execute, there is something wrong with the implementation.
 
+## Technical Debrief - HubSpot Meetings Integration
+
+### Implementation Summary
+I realised meetings data extraction from HubSpot API following the existing pattern. The solution fetches meetings, retrieves contact associations, and creates `Meeting Created`/`Meeting Updated` actions with contact email information.
+
+### Debrief TODO
+Through the code of the test, I noticed some duplication across `processContacts`, `processCompanies`, and `processMeetings` methods. Ideally, here we should extract common pagination logic, API retry mechanisms, and association handling into reusable utility functions. The current codbase lacks TypeScript it would be nice to have it here. One more thing to add centralized error messages for better debugging in production environments. I made the first step with the architecture by dividing functions to smaller pieces of code. But it could be improved by adding additional an abstraction layer. And may be even  adding separate workers for each data type (contacts, companies, meetings). The current monolithic worker approach doesn't scale well. The most critical issue with perfomance is the multiple api calls per meeting - first to get meetings, then associations, then contanct details. It would be nice to implement intelligent caching for contact data since the same contacts appear in multiple meetings and also the current 100-item pagination might be too small for large datasets, causing unnecessary API overhead.
